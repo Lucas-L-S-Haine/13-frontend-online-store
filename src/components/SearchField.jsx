@@ -8,7 +8,6 @@ class SearchField extends Component {
 
     this.state = {
       searchField: '',
-      products: [],
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -23,17 +22,13 @@ class SearchField extends Component {
     });
   }
 
-  async handleClick() {
+  handleClick() {
     const { searchField } = this.state;
     console.log(searchField);
-    const products = await getProductsFromCategoryAndQuery('MLB1196', searchField);
-    this.setState({
-      products: products.results,
-    });
   }
 
   render() {
-    const { searchField, products } = this.state;
+    const { searchField } = this.state;
     return (
       <div>
         <button
@@ -51,7 +46,6 @@ class SearchField extends Component {
           onChange={ this.handleChange }
           placeholder="Ex: produto xxx"
         />
-        <ProductList products={ products } />
       </div>
     );
   }

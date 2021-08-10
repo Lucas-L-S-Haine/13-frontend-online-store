@@ -6,17 +6,45 @@ import CategoriesList from './CategoriesList';
 import SearchField from './SearchField';
 
 export default class Home extends React.Component {
+
+  constructor() {
+    super();
+
+    this.state = {
+      fieldText:
+    }
+  }
+
+  onHandleClickc() {
+
+    this.setState({
+      products: products.results,
+    });
+  }
+
+  async handleClick() {
+    const { searchField } = this.state;
+    console.log(searchField);
+    const products = await getProductsFromCategoryAndQuery('MLB1196', searchField);
+
+  }
+
   render() {
     return (
       <div>
-        <CategoriesList />
+        <CategoriesList onChangeField={  } />
+
         <p data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
         </p>
+
         <Link data-testid="shopping-cart-button" to="/cart">
           <span><BiCartAlt size={ 40 } /></span>
         </Link>
-        <SearchField />
+
+        <SearchField products={ products }/>
+
+        <ProductsList products={ products }/>
       </div>
     );
   }
