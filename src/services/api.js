@@ -17,6 +17,5 @@ export async function getProductsFromCategoryAndQuery(
     `https://api.mercadolibre.com/sites/MLB/search?category=${categoryId}&q=${query}`,
   );
   const data = await response.json();
-  console.log(data);
   return data;
 }
