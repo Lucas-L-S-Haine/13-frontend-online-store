@@ -8,18 +8,10 @@ export default class CategoriesList extends React.Component {
     this.state = {
       products: [],
     };
-
-    this.onHandleClick = this.onHandleClick.bind(this);
   }
 
   componentDidMount() {
     this.getListCategories();
-  }
-
-  onHandleClick({ target }) {
-    const { onCategoryId } = this.props;
-    const { value } = target;
-    onCategoryId(value);
   }
 
   async getListCategories() {
@@ -31,17 +23,18 @@ export default class CategoriesList extends React.Component {
 
   render() {
     const { products } = this.state;
+    const { onCategoryId } = this.props;
     return (
       <div>
         {products.map((product) => (
-          <label data-testid="category" htmlFor={ product.name } key={ product.id }>
+          <label data-testid="category" htmlFor={ product.id } key={ product.id }>
             { product.name }
             <input
-              id={ product.name }
+              id={ product.id }
               type="radio"
               value={ product.id }
               name="categorias"
-              onClick={ this.onHandleClick }
+              onClick={ onCategoryId }
             />
           </label>
         ))}

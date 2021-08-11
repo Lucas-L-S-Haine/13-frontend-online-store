@@ -2,10 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { BiCartAlt } from 'react-icons/bi';
-import {
-  getProductsFromCategory,
-  getProductsFromCategoryAndQuery,
-  getProductsFromQuery } from '../services/api';
+import { getProductsFromCategoryAndQuery } from '../services/api';
 import CategoriesList from './CategoriesList';
 import SearchField from './SearchField';
 import ProductList from './ProductList';
@@ -15,34 +12,34 @@ export default class Home extends React.Component {
     super();
 
     this.state = {
-      searchText: '',
-      categoryId: '',
+      searchText: undefined,
+      categoryId: undefined,
       products: [],
     };
 
     this.onSearchText = this.onSearchText.bind(this);
     this.onCategoryId = this.onCategoryId.bind(this);
-    this.getCategoriesList = this.getCategoriesList.bind(this);
+    this.getProductsList = this.getProductsList.bind(this);
   }
 
   componentDidMount() {
-    this.getCategoriesList();
+    this.getProductsList();
   }
 
-  onSearchText(searchText) {
-    this.setState({ searchText });
-    this.getCategoriesList();
+  onSearchText(searchField) {
+    this.setState({ searchText: searchField }, this.getProductsList);
   }
 
-  onCategoryId(categoryId) {
-    this.setState({ categoryId });
-    this.getCategoriesList();
+  onCategoryId({ target }) {
+    const { value } = target;
+    this.setState({ categoryId: value, searchText: undefined }, this.getProductsList);
   }
 
-  async getCategoriesList() {
+  async getProductsList() {
     const { categoryId, searchText } = this.state;
     const product = await getProductsFromCategoryAndQuery(categoryId, searchText);
-    this.setState({ products: product.results });
+    const { results } = product;
+    this.setState({ products: results });
   }
 
   renderProducts() {
