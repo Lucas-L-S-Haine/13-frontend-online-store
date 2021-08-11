@@ -13,16 +13,9 @@ export default class Home extends React.Component {
     this.state = {
       searchText: '',
       categoryId: '',
-    }
-
+    };
     this.onSearchText = this.onSearchText.bind(this);
     this.onCategoryId = this.onCategoryId.bind(this);
-  }
-
-  async getCategoriesList() {
-    const { searchText, categoryId } = this.state;
-    const products = await getProductsFromCategoryAndQuery(categoryId, searchText);
-    return products.results;
   }
 
   onSearchText(textField) {
@@ -31,6 +24,12 @@ export default class Home extends React.Component {
 
   onCategoryId(categoryName) {
     this.setState({ categoryId: categoryName });
+  }
+
+  async getCategoriesList() {
+    const { searchText, categoryId } = this.state;
+    const products = await getProductsFromCategoryAndQuery(categoryId, searchText);
+    return products.results;
   }
 
   render() {

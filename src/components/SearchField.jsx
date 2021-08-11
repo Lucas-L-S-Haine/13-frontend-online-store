@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import ProductList from './ProductList';
 import PropTypes from 'prop-types';
+import ProductList from './ProductList';
 
 class SearchField extends Component {
   constructor(props) {
@@ -25,7 +25,7 @@ class SearchField extends Component {
   handleClick() {
     const { onSearchText } = this.props;
     const { searchField } = this.state;
-    onSearchText(searchField)
+    onSearchText(searchField);
   }
 
   render() {
@@ -45,7 +45,7 @@ class SearchField extends Component {
           name="searchField"
           value={ searchField }
           onChange={ this.handleChange }
-          placeholder="Ex: produto xxx"
+          placeholder="Ex: produto x"
         />
       </div>
     );

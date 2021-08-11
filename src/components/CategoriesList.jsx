@@ -1,6 +1,6 @@
 import React from 'react';
-import { getCategories } from '../services/api';
 import PropTypes from 'prop-types';
+import { getCategories } from '../services/api';
 
 export default class CategoriesList extends React.Component {
   constructor(props) {
