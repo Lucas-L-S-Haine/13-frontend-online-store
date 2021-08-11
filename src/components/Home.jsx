@@ -22,10 +22,6 @@ export default class Home extends React.Component {
     this.getProductsList = this.getProductsList.bind(this);
   }
 
-  componentDidMount() {
-    this.getProductsList();
-  }
-
   onSearchText(searchField) {
     this.setState({ searchText: searchField }, this.getProductsList);
   }
