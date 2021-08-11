@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { getProductsFromCategoryAndQuery } from '../services/api';
-import ProductList from './ProductList';
+import PropTypes from 'prop-types';
 
 class SearchField extends Component {
   constructor(props) {
@@ -16,7 +15,6 @@ class SearchField extends Component {
 
   handleChange({ target }) {
     const { name, value } = target;
-
     this.setState({
       [name]: value,
     });
@@ -24,7 +22,12 @@ class SearchField extends Component {
 
   handleClick() {
     const { searchField } = this.state;
+<<<<<<< HEAD
     console.log(searchField);
+=======
+    const { onSearchText } = this.props;
+    onSearchText(searchField);
+>>>>>>> cf569437983527e7f7f90793f9bd42027f031e62
   }
 
   render() {
@@ -44,11 +47,15 @@ class SearchField extends Component {
           name="searchField"
           value={ searchField }
           onChange={ this.handleChange }
-          placeholder="Ex: produto xxx"
+          placeholder="Ex: produto x"
         />
       </div>
     );
   }
 }
+
+SearchField.propTypes = {
+  onSearchText: PropTypes.func.isRequired,
+};
 
 export default SearchField;

@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { getCategories } from '../services/api';
 
 export default class CategoriesList extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       products: [],
     };
@@ -11,11 +12,6 @@ export default class CategoriesList extends React.Component {
 
   componentDidMount() {
     this.getListCategories();
-  }
-
-  onHandleClick({ target }) {
-    const { value } = target;
-    console.log(value);
   }
 
   async getListCategories() {
@@ -27,17 +23,18 @@ export default class CategoriesList extends React.Component {
 
   render() {
     const { products } = this.state;
+    const { onCategoryId } = this.props;
     return (
       <div>
         {products.map((product) => (
-          <label data-testid="category" htmlFor={ product.name } key={ product.id }>
-            {product.name}
+          <label data-testid="category" htmlFor={ product.id } key={ product.id }>
+            { product.name }
             <input
-              id={ product.name }
+              id={ product.id }
               type="radio"
               value={ product.id }
               name="categorias"
-              onClick={ this.onHandleClick }
+              onClick={ onCategoryId }
             />
           </label>
         ))}
@@ -45,3 +42,7 @@ export default class CategoriesList extends React.Component {
     );
   }
 }
+
+CategoriesList.propTypes = {
+  onCategoryId: PropTypes.func.isRequired,
+};

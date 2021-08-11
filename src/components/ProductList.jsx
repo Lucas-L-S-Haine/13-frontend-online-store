@@ -7,9 +7,9 @@ class ProductList extends Component {
     const { products } = this.props;
     return (
       <div>
-        { products.map((product) => (
+        {products.map((product) => (
           <ProductCard key={ product.title } product={ product } />
-        )) }
+        ))}
       </div>
     );
   }
