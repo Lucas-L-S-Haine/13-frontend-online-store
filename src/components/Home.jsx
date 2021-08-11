@@ -2,7 +2,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { BiCartAlt } from 'react-icons/bi';
-import { getProductsFromCategoryAndQuery } from '../services/api';
+import {
+  getProductsFromCategory,
+  getProductsFromCategoryAndQuery,
+  getProductsFromQuery } from '../services/api';
 import CategoriesList from './CategoriesList';
 import SearchField from './SearchField';
 import ProductList from './ProductList';
@@ -10,27 +13,45 @@ import ProductList from './ProductList';
 export default class Home extends React.Component {
   constructor() {
     super();
+
     this.state = {
       searchText: '',
       categoryId: '',
-    }
+      products: [],
+    };
 
     this.onSearchText = this.onSearchText.bind(this);
     this.onCategoryId = this.onCategoryId.bind(this);
+    this.getCategoriesList = this.getCategoriesList.bind(this);
+  }
+
+  componentDidMount() {
+    this.getCategoriesList();
+  }
+
+  onSearchText(searchText) {
+    this.setState({ searchText });
+    this.getCategoriesList();
+  }
+
+  onCategoryId(categoryId) {
+    this.setState({ categoryId });
+    this.getCategoriesList();
   }
 
   async getCategoriesList() {
-    const { searchText, categoryId } = this.state;
-    const products = await getProductsFromCategoryAndQuery(categoryId, searchText);
-    return products.results;
+    const { categoryId, searchText } = this.state;
+    const product = await getProductsFromCategoryAndQuery(categoryId, searchText);
+    this.setState({ products: product.results });
   }
 
-  onSearchText(textField) {
-    this.setState({ searchText: textField });
-  }
+  renderProducts() {
+    const { products } = this.state;
 
-  onCategoryId(categoryName) {
-    this.setState({ categoryId: categoryName });
+    if (products.length > 0) {
+      return <ProductList products={ products } />;
+    }
+    return <span>Nenhum produto foi encontrado</span>;
   }
 
   render() {
@@ -44,7 +65,7 @@ export default class Home extends React.Component {
           <span><BiCartAlt size={ 40 } /></span>
         </Link>
         <SearchField onSearchText={ this.onSearchText } />
-        <ProductList products={ this.getCategoriesList() } />
+        { this.renderProducts() }
       </div>
     );
   }

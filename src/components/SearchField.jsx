@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ProductList from './ProductList';
 import PropTypes from 'prop-types';
 
 class SearchField extends Component {
@@ -16,20 +15,19 @@ class SearchField extends Component {
 
   handleChange({ target }) {
     const { name, value } = target;
-
     this.setState({
       [name]: value,
     });
   }
 
   handleClick() {
-    const { onSearchText } = this.props;
     const { searchField } = this.state;
-    onSearchText(searchField)
+    const { onSearchText } = this.props;
+    onSearchText(searchField);
   }
 
   render() {
-    const { searchField, products } = this.state;
+    const { searchField } = this.state;
     return (
       <div>
         <button

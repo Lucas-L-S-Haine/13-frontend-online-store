@@ -11,7 +11,7 @@ class ProductList extends Component {
           products.map((product) => (
             <ProductCard key={ product.title } product={ product } />
           ))
-       }
+        }
       </div>
     );
   }

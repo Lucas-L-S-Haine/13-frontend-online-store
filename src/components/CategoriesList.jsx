@@ -1,6 +1,6 @@
 import React from 'react';
-import { getCategories } from '../services/api';
 import PropTypes from 'prop-types';
+import { getCategories } from '../services/api';
 
 export default class CategoriesList extends React.Component {
   constructor(props) {
@@ -8,6 +8,8 @@ export default class CategoriesList extends React.Component {
     this.state = {
       products: [],
     };
+
+    this.onHandleClick = this.onHandleClick.bind(this);
   }
 
   componentDidMount() {
@@ -33,7 +35,7 @@ export default class CategoriesList extends React.Component {
       <div>
         {products.map((product) => (
           <label data-testid="category" htmlFor={ product.name } key={ product.id }>
-            {product.name}
+            { product.name }
             <input
               id={ product.name }
               type="radio"
