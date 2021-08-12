@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { BiCartAlt } from 'react-icons/bi';
 
 export default class ProductDetail extends React.Component {
   constructor(props) {
@@ -13,6 +15,13 @@ export default class ProductDetail extends React.Component {
     this.returnProductDetails();
   }
 
+  addProduct({ target }) {
+    const { product } = localStorage;
+    const list = JSON.parse(product);
+
+    localStorage.setItem('product', JSON.stringify([...list, target.id]));
+  }
+
   async returnProductDetails() {
     const { match: { params: { id } } } = this.props;
     const fetchProductDetails = await fetch(`https://api.mercadolibre.com/items/${id}`);
@@ -23,9 +32,14 @@ export default class ProductDetail extends React.Component {
   }
 
   render() {
-    const { product: { title, thumbnail, price, attributes } } = this.state;
+    const { product: { id, title, thumbnail, price, attributes } } = this.state;
     return (
       <div>
+        <Link data-testid="shopping-cart-button" to="/cart">
+          <span>
+            <BiCartAlt size={ 40 } />
+          </span>
+        </Link>
         <h1 data-testid="product-detail-name">{title}</h1>
         <img src={ thumbnail } alt={ title } />
         <p>{price}</p>
@@ -38,6 +52,14 @@ export default class ProductDetail extends React.Component {
             </li>
           ))}
         </ul>
+        <button
+          type="button"
+          id={ id }
+          data-testid="product-detail-add-to-cart"
+          onClick={ this.addProduct }
+        >
+          Adicionar ao carrinho
+        </button>
       </div>
     );
   }
