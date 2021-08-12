@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { BiCartAlt } from 'react-icons/bi';
 
 export default class ProductDetail extends React.Component {
   constructor(props) {
@@ -33,6 +35,11 @@ export default class ProductDetail extends React.Component {
     const { product: { id, title, thumbnail, price, attributes } } = this.state;
     return (
       <div>
+        <Link data-testid="shopping-cart-button" to="/cart">
+          <span>
+            <BiCartAlt size={ 40 } />
+          </span>
+        </Link>
         <h1 data-testid="product-detail-name">{title}</h1>
         <img src={ thumbnail } alt={ title } />
         <p>{price}</p>
