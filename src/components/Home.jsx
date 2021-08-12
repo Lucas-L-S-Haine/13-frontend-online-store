@@ -8,32 +8,10 @@ import SearchField from './SearchField';
 import ProductList from './ProductList';
 
 export default class Home extends React.Component {
-<<<<<<< HEAD
-
-=======
->>>>>>> cf569437983527e7f7f90793f9bd42027f031e62
   constructor() {
     super();
 
     this.state = {
-<<<<<<< HEAD
-      fieldText:
-    }
-  }
-
-  onHandleClickc() {
-
-    this.setState({
-      products: products.results,
-    });
-  }
-
-  async handleClick() {
-    const { searchField } = this.state;
-    console.log(searchField);
-    const products = await getProductsFromCategoryAndQuery('MLB1196', searchField);
-
-=======
       searchText: undefined,
       categoryId: undefined,
       products: [],
@@ -83,18 +61,12 @@ export default class Home extends React.Component {
     }
 
     return <span>Nenhum produto foi encontrado</span>;
->>>>>>> cf569437983527e7f7f90793f9bd42027f031e62
   }
 
   render() {
     return (
       <div>
-<<<<<<< HEAD
-        <CategoriesList onChangeField={  } />
-
-=======
         <CategoriesList onCategoryId={ this.onCategoryId } />
->>>>>>> cf569437983527e7f7f90793f9bd42027f031e62
         <p data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
         </p>
@@ -104,15 +76,8 @@ export default class Home extends React.Component {
             <BiCartAlt size={ 40 } />
           </span>
         </Link>
-<<<<<<< HEAD
-
-        <SearchField products={ products }/>
-
-        <ProductsList products={ products }/>
-=======
         <SearchField onSearchText={ this.onSearchText } />
         {this.renderProducts()}
->>>>>>> cf569437983527e7f7f90793f9bd42027f031e62
       </div>
     );
   }

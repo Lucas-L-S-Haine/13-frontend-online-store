@@ -22,12 +22,8 @@ class SearchField extends Component {
 
   handleClick() {
     const { searchField } = this.state;
-<<<<<<< HEAD
-    console.log(searchField);
-=======
     const { onSearchText } = this.props;
     onSearchText(searchField);
->>>>>>> cf569437983527e7f7f90793f9bd42027f031e62
   }
 
   render() {
