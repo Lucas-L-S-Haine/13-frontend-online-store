@@ -3,26 +3,14 @@ import PropTypes from 'prop-types';
 import ProductCard from './ProductCard';
 
 class ProductList extends Component {
-  constructor() {
-    super();
-    this.state = {
-      products: [],
-    };
-    this.addProduct = this.addProduct.bind(this);
-  }
-
-  componentDidUpdate() {
-    const { products } = this.state;
-    const setItem = JSON.stringify(products);
-    localStorage.setItem('product', setItem);
-  }
-
   addProduct({ target }) {
-    this.setState((prevState) => ({ products: [...prevState.products, target.id] }));
+    const { product } = localStorage;
+    const list = JSON.parse(product);
+
+    localStorage.setItem('product', JSON.stringify([...list, target.id]));
   }
 
   render() {
-
     const { products } = this.props;
     return (
       <div>

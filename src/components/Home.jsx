@@ -22,6 +22,14 @@ export default class Home extends React.Component {
     this.getProductsList = this.getProductsList.bind(this);
   }
 
+  componentDidMount() {
+    const products = localStorage.getItem('product');
+
+    if (products === null) {
+      localStorage.setItem('product', JSON.stringify([]));
+    }
+  }
+
   onSearchText(searchField) {
     this.setState({ searchText: searchField }, this.getProductsList);
   }
