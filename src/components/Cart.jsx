@@ -27,10 +27,12 @@ class Cart extends Component {
 
   increaseAmount(event) {
     // Implementar aumentar quantidade do produto
+    console.log(event.target.parentNode);
   }
 
   decreaseAmount(event) {
     // Implementar diminuir quantidade do produto
+    console.log(event.target.parentNode);
   }
 
   render() {
@@ -53,22 +55,20 @@ class Cart extends Component {
             <img src={ thumbnail } alt={ title } />
             <p>{ price }</p>
             <button
-              onClick={this.increaseAmount}
+              onClick={ this.increaseAmount }
               type="button"
               data-testid="product-increase-quantity"
-              style={ {
-                width: "20px",
-                height: "20px",
-              } }>+
+              style={ { width: '20px', height: '20px' } }
+            >
+              +
             </button>
             <button
-              onClick={this.decreaseAmount}
+              onClick={ this.decreaseAmount }
               type="button"
-              data-testid="product-decrease-quantity"
-              style={ {
-                width: "20px",
-                height: "20px",
-              } }>-
+              data-testid="product-increase-quantity"
+              style={ { width: '20px', height: '20px' } }
+            >
+              -
             </button>
           </div>
         )) }
