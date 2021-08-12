@@ -22,6 +22,14 @@ export default class Home extends React.Component {
     this.getProductsList = this.getProductsList.bind(this);
   }
 
+  componentDidMount() {
+    const products = localStorage.getItem('product');
+
+    if (products === null) {
+      localStorage.setItem('product', JSON.stringify([]));
+    }
+  }
+
   onSearchText(searchField) {
     this.setState({ searchText: searchField }, this.getProductsList);
   }
@@ -70,6 +78,7 @@ export default class Home extends React.Component {
         <p data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
         </p>
+
         <Link data-testid="shopping-cart-button" to="/cart">
           <span>
             <BiCartAlt size={ 40 } />

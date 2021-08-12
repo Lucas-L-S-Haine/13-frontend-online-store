@@ -1,12 +1,28 @@
 import React, { Component } from 'react';
 
 class Cart extends Component {
-  constructor() {
-    super();
-
+  constructor(props) {
+    super(props);
     this.state = {
       products: [],
     };
+  }
+
+  componentDidMount() {
+    this.getProductLocal();
+  }
+
+  getProductLocal() {
+    const { product } = localStorage;
+    const productList = JSON.parse(product);
+
+    productList.map(async (id) => {
+      const fetchProductDetails = await fetch(`https://api.mercadolibre.com/items/${id}`);
+      const productDetails = await fetchProductDetails.json();
+
+      this.setState((prevState) => (
+        { products: [...prevState.products, productDetails] }));
+    });
   }
 
   render() {
@@ -22,7 +38,14 @@ class Cart extends Component {
 
     return (
       <div>
-        oi
+        <span data-testid="shopping-cart-product-quantity">{ products.length }</span>
+        { products.map(({ id, title, thumbnail, price }) => (
+          <div key={ id }>
+            <h1 data-testid="shopping-cart-product-name">{ title }</h1>
+            <img src={ thumbnail } alt={ title } />
+            <p>{ price }</p>
+          </div>
+        )) }
       </div>
     );
   }
