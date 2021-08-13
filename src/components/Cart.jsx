@@ -50,7 +50,6 @@ class Cart extends Component {
     const { product } = localStorage;
     const list = JSON.parse(product);
     const { products } = this.state;
-
     const newState = this.funcMapPositive(products, target.id);
 
     localStorage.setItem('product', JSON.stringify(
@@ -64,7 +63,6 @@ class Cart extends Component {
     const { product } = localStorage;
     const list = JSON.parse(product);
     const { products } = this.state;
-
     const newState = this.funcMapNegative(products, target.id);
 
     localStorage.setItem('product', JSON.stringify(
@@ -76,7 +74,6 @@ class Cart extends Component {
 
   render() {
     const { products } = this.state;
-
     if (products.length < 1) {
       return (
         <span data-testid="shopping-cart-empty-message">
