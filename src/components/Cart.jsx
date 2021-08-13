@@ -6,6 +6,9 @@ class Cart extends Component {
     this.state = {
       products: [],
     };
+
+    this.increaseAmount = this.increaseAmount.bind(this);
+    this.decreaseAmount = this.decreaseAmount.bind(this);
   }
 
   componentDidMount() {
@@ -16,23 +19,69 @@ class Cart extends Component {
     const { product } = localStorage;
     const productList = JSON.parse(product);
 
-    productList.map(async (id) => {
+    productList.map(async ({ id, count }) => {
       const fetchProductDetails = await fetch(`https://api.mercadolibre.com/items/${id}`);
       const productDetails = await fetchProductDetails.json();
 
       this.setState((prevState) => (
-        { products: [...prevState.products, productDetails] }));
+        { products: [...prevState.products, { ...productDetails, count }] }));
     });
   }
 
-  increaseAmount(event) {
-    // Implementar aumentar quantidade do produto
-    console.log(event.target.parentNode);
+  funcMapNegative(array, id) {
+    return array.map((objct) => {
+      if (objct.id === id) {
+        objct.count -= 1;
+      }
+      return objct;
+    });
   }
 
-  decreaseAmount(event) {
-    // Implementar diminuir quantidade do produto
-    console.log(event.target.parentNode);
+  funcMapPositive(array, id) {
+    return array.map((objct) => {
+      if (objct.id === id) {
+        objct.count += 1;
+      }
+      return objct;
+    });
+  }
+
+  increaseAmount({ target }) {
+    const { product } = localStorage;
+    const list = JSON.parse(product);
+    const { products } = this.state;
+
+    const newState = this.funcMapPositive(products, target.id);
+
+    localStorage.setItem('product', JSON.stringify(
+      list.map((objct) => {
+        if (objct.id === target.id) {
+          objct.count += 1;
+        }
+        return objct;
+      }),
+    ));
+
+    this.setState({ products: newState });
+  }
+
+  decreaseAmount({ target }) {
+    const { product } = localStorage;
+    const list = JSON.parse(product);
+    const { products } = this.state;
+
+    const newState = this.funcMapNegative(products, target.id);
+
+    localStorage.setItem('product', JSON.stringify(
+      list.map((objct) => {
+        if (objct.id === target.id) {
+          objct.count -= 1;
+        }
+        return objct;
+      }),
+    ));
+
+    this.setState({ products: newState });
   }
 
   render() {
@@ -49,26 +98,30 @@ class Cart extends Component {
     return (
       <div>
         <span data-testid="shopping-cart-product-quantity">{ products.length }</span>
-        { products.map(({ id, title, thumbnail, price }) => (
+        { products.map(({ id, title, thumbnail, price, count }) => (
           <div key={ id }>
             <h1 data-testid="shopping-cart-product-name">{ title }</h1>
             <img src={ thumbnail } alt={ title } />
             <p>{ price }</p>
-            <button
-              onClick={ this.increaseAmount }
-              type="button"
-              data-testid="product-increase-quantity"
-              style={ { width: '20px', height: '20px' } }
-            >
-              +
-            </button>
+
             <button
               onClick={ this.decreaseAmount }
+              id={ id }
               type="button"
-              data-testid="product-increase-quantity"
-              style={ { width: '20px', height: '20px' } }
+              data-testid="product-decrease-quantity"
+              // style={ { width: '20px', height: '20px' } }
             >
               -
+            </button>
+            <span>{ count }</span>
+            <button
+              onClick={ this.increaseAmount }
+              id={ id }
+              type="button"
+              data-testid="product-increase-quantity"
+              // style={ { width: '20px', height: '20px' } }
+            >
+              +
             </button>
           </div>
         )) }
