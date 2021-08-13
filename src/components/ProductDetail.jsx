@@ -9,6 +9,8 @@ export default class ProductDetail extends React.Component {
     this.state = {
       product: { attributes: [] },
     };
+
+    this.returnProductDetails = this.returnProductDetails.bind(this);
   }
 
   componentDidMount() {
@@ -19,15 +21,32 @@ export default class ProductDetail extends React.Component {
     const { product } = localStorage;
     const list = JSON.parse(product);
 
-    localStorage.setItem('product', JSON.stringify([...list, target.id]));
+    const item = {
+      id: target.id,
+      count: 1,
+    };
+
+    if (!list.find(({ id }) => id === item.id)) {
+      localStorage.setItem('product', JSON.stringify([...list, item]));
+    } else {
+      localStorage.setItem('product', JSON.stringify(
+        list.map((objct) => {
+          if (objct.id === item.id) {
+            objct.count += 1;
+          }
+          return objct;
+        }),
+      ));
+    }
   }
 
   async returnProductDetails() {
     const { match: { params: { id } } } = this.props;
-    const fetchProductDetails = await fetch(`https://api.mercadolibre.com/items/${id}`);
-    const productDetails = await fetchProductDetails.json();
+    const productsList = await localStorage.getItem('productsList');
+    const listGet = JSON.parse(productsList);
+
     this.setState({
-      product: productDetails,
+      product: listGet.filter((objct) => (objct.id === id))[0],
     });
   }
 

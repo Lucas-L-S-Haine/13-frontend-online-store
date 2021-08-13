@@ -7,7 +7,23 @@ class ProductList extends Component {
     const { product } = localStorage;
     const list = JSON.parse(product);
 
-    localStorage.setItem('product', JSON.stringify([...list, target.id]));
+    const item = {
+      id: target.id,
+      count: 1,
+    };
+
+    if (!list.find(({ id }) => id === item.id)) {
+      localStorage.setItem('product', JSON.stringify([...list, item]));
+    } else {
+      localStorage.setItem('product', JSON.stringify(
+        list.map((objct) => {
+          if (objct.id === item.id) {
+            objct.count += 1;
+          }
+          return objct;
+        }),
+      ));
+    }
   }
 
   render() {
