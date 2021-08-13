@@ -50,15 +50,7 @@ export default class Home extends React.Component {
     );
     const { results } = product;
     this.setState({ products: results });
-  }
-
-  async getCategoriesList() {
-    const { searchText, categoryId } = this.state;
-    const products = await getProductsFromCategoryAndQuery(
-      categoryId,
-      searchText,
-    );
-    return products.results;
+    localStorage.setItem('productsList', JSON.stringify(results));
   }
 
   renderProducts() {

@@ -9,6 +9,8 @@ export default class ProductDetail extends React.Component {
     this.state = {
       product: { attributes: [] },
     };
+
+    this.returnProductDetails = this.returnProductDetails.bind(this);
   }
 
   componentDidMount() {
@@ -40,10 +42,11 @@ export default class ProductDetail extends React.Component {
 
   async returnProductDetails() {
     const { match: { params: { id } } } = this.props;
-    const fetchProductDetails = await fetch(`https://api.mercadolibre.com/items/${id}`);
-    const productDetails = await fetchProductDetails.json();
+    const productsList = await localStorage.getItem('productsList');
+    const listGet = JSON.parse(productsList);
+
     this.setState({
-      product: productDetails,
+      product: listGet.filter((objct) => (objct.id === id))[0],
     });
   }
 

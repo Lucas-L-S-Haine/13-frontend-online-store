@@ -20,8 +20,10 @@ class Cart extends Component {
     const productList = JSON.parse(product);
 
     productList.map(async ({ id, count }) => {
-      const fetchProductDetails = await fetch(`https://api.mercadolibre.com/items/${id}`);
-      const productDetails = await fetchProductDetails.json();
+      const productsList = await localStorage.getItem('productsList');
+      const listGet = JSON.parse(productsList);
+
+      const productDetails = listGet.filter((objct) => (objct.id === id))[0];
 
       this.setState((prevState) => (
         { products: [...prevState.products, { ...productDetails, count }] }));
