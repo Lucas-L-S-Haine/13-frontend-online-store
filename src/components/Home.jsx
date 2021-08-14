@@ -53,31 +53,32 @@ export default class Home extends React.Component {
     localStorage.setItem('productsList', JSON.stringify(results));
   }
 
-  renderProducts() {
-    const { products } = this.state;
-
-    if (products.length > 0) {
-      return <ProductList products={ products } />;
-    }
-
-    return <span>Nenhum produto foi encontrado</span>;
-  }
-
-  render() {
-    return (
-      <div>
-        <CategoriesList onCategoryId={ this.onCategoryId } />
+  renderProducts(products) {
+    if (products.length <= 0) {
+      return (
         <p data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
         </p>
+      );
+    }
+  }
 
+  render() {
+    const { products, searchText } = this.state;
+    return (
+      <div>
+        <CategoriesList onCategoryId={ this.onCategoryId } />
+        {this.renderProducts(products)}
         <Link data-testid="shopping-cart-button" to="/cart">
           <span>
             <BiCartAlt size={ 40 } />
           </span>
         </Link>
         <SearchField onSearchText={ this.onSearchText } />
-        {this.renderProducts()}
+        <ProductList
+          products={ products }
+          searchText={ searchText }
+        />
       </div>
     );
   }

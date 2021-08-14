@@ -19,14 +19,14 @@ class Cart extends Component {
     const { product } = localStorage;
     const productList = JSON.parse(product);
 
-    productList.map(async ({ id, count }) => {
+    productList.map(async ({ id, count, evaluation }) => {
       const productsList = await localStorage.getItem('productsList');
       const listGet = JSON.parse(productsList);
 
       const productDetails = listGet.filter((objct) => (objct.id === id))[0];
 
       this.setState((prevState) => (
-        { products: [...prevState.products, { ...productDetails, count }] }));
+        { products: [...prevState.products, { ...productDetails, count, evaluation }] }));
     });
   }
 
