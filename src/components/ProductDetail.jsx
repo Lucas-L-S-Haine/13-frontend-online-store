@@ -8,22 +8,33 @@ export default class ProductDetail extends React.Component {
     super(props);
     this.state = {
       product: { attributes: [] },
+      evaluation: { comment: '' },
     };
 
     this.returnProductDetails = this.returnProductDetails.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.addProduct = this.addProduct.bind(this);
   }
 
   componentDidMount() {
     this.returnProductDetails();
   }
 
+  handleChange({ target }) {
+    this.setState({
+      evaluation: { comment: target.value },
+    });
+  }
+
   addProduct({ target }) {
+    const { evaluation: { comment } } = this.state;
     const { product } = localStorage;
     const list = JSON.parse(product);
 
     const item = {
       id: target.id,
       count: 1,
+      evaluation: { comment },
     };
 
     if (!list.find(({ id }) => id === item.id)) {
@@ -51,7 +62,10 @@ export default class ProductDetail extends React.Component {
   }
 
   render() {
-    const { product: { id, title, thumbnail, price, attributes } } = this.state;
+    const {
+      product: { id, title, thumbnail, price, attributes },
+      evaluation: { comment } } = this.state;
+
     return (
       <div>
         <Link data-testid="shopping-cart-button" to="/cart">
@@ -79,6 +93,15 @@ export default class ProductDetail extends React.Component {
         >
           Adicionar ao carrinho
         </button>
+        <label htmlFor="evaluation ">
+          Avaliação:
+          <textarea
+            id="evaluation"
+            data-testid="product-detail-evaluation"
+            value={ comment }
+            onChange={ this.handleChange }
+          />
+        </label>
       </div>
     );
   }

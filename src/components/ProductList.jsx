@@ -10,6 +10,7 @@ class ProductList extends Component {
     const item = {
       id: target.id,
       count: 1,
+      evaluation: { comment: '' },
     };
 
     if (!list.find(({ id }) => id === item.id)) {
@@ -27,7 +28,12 @@ class ProductList extends Component {
   }
 
   render() {
-    const { products } = this.props;
+    const { products, searchText } = this.props;
+
+    if (products.length === 0 && searchText === '') {
+      return <span>Nenhum produto foi encontrado</span>;
+    }
+
     return (
       <div>
         {products.map((product) => (
@@ -44,6 +50,11 @@ class ProductList extends Component {
 
 ProductList.propTypes = {
   products: PropTypes.arrayOf(PropTypes.object).isRequired,
+  searchText: PropTypes.string,
+};
+
+ProductList.defaultProps = {
+  searchText: undefined,
 };
 
 export default ProductList;
