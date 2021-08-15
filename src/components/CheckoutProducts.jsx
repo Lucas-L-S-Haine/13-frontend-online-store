@@ -55,12 +55,42 @@ class CheckoutProducts extends Component {
             type="text"
             name="fullname"
             placeholder="Nome Comleto"
+            data-testid="checkout-fullname"
             // onChange={this.myChangeHandler}
           />
           <input
             type="text"
             name="cpf"
-            placeholder="Nome Comleto"
+            placeholder="CPF"
+            data-testid="checkout-cpf"
+            // onChange={this.myChangeHandler}
+          />
+          <input
+            type="text"
+            name="email"
+            placeholder="Email"
+            data-testid="checkout-email"
+            // onChange={this.myChangeHandler}
+          />
+          <input
+            type="text"
+            name="phone"
+            placeholder="Telefone"
+            data-testid="checkout-phone"
+            // onChange={this.myChangeHandler}
+          />
+          <input
+            type="text"
+            name="cep"
+            placeholder="CEP"
+            data-testid="checkout-cep"
+            // onChange={this.myChangeHandler}
+          />
+          <input
+            type="text"
+            name="adress"
+            placeholder="Endereço"
+            data-testid="checkout-address"
             // onChange={this.myChangeHandler}
           />
         </form>
