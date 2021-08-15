@@ -13,11 +13,12 @@ class ProductCard extends Component {
     const list = JSON.parse(product);
     const { onUpdateCount } = this.props;
 
-    const item = {
-      id: target.id,
-      count: 1,
-      evaluation: { comment: '' },
-    };
+    const productsList = localStorage.getItem('productsList');
+    const listGet = JSON.parse(productsList);
+    const productAdd = () => listGet.filter((objct) => (objct.id === target.id))[0];
+    const { price } = productAdd();
+
+    const item = { id: target.id, count: 1, evaluation: { comment: '' }, price };
 
     if (!list.find(({ id }) => id === item.id)) {
       localStorage.setItem('product', JSON.stringify([...list, item]));
