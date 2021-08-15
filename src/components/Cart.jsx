@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+// import { getCount } from '../services/api';
 
 class Cart extends Component {
   constructor(props) {
@@ -59,6 +60,7 @@ class Cart extends Component {
     ));
 
     this.setState({ products: newState });
+    // localStorage.setItem('totalCart', getCount());
   }
 
   decreaseAmount({ target }) {
@@ -72,6 +74,7 @@ class Cart extends Component {
     ));
 
     this.setState({ products: newState });
+    // localStorage.setItem('totalCart', getCount());
   }
 
   render() {

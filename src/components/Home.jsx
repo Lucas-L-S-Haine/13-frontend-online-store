@@ -15,12 +15,13 @@ export default class Home extends React.Component {
       searchText: undefined,
       categoryId: undefined,
       products: [],
-      totalCount: 0,
+      totalCount: undefined,
     };
 
     this.onSearchText = this.onSearchText.bind(this);
     this.onCategoryId = this.onCategoryId.bind(this);
     this.getProductsList = this.getProductsList.bind(this);
+    this.onUpdateCount = this.onUpdateCount.bind(this);
   }
 
   componentDidMount() {
@@ -77,11 +78,11 @@ export default class Home extends React.Component {
         <CategoriesList onCategoryId={ this.onCategoryId } />
         {this.renderProducts(products)}
         <Link data-testid="shopping-cart-button" to="/cart">
-          <span data-testid="shopping-cart-size">
-            <BiCartAlt size={ 40 } />
-            { totalCount }
-          </span>
+          <BiCartAlt size={ 40 } />
         </Link>
+        <span data-testid="shopping-cart-size">
+          { totalCount }
+        </span>
         <SearchField onSearchText={ this.onSearchText } />
         <ProductList
           products={ products }

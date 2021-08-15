@@ -1,36 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ProductCard from './ProductCard';
-import { getCount } from '../services/api';
 
 class ProductList extends Component {
-  addProduct({ target }) {
-    const { product } = localStorage;
-    const list = JSON.parse(product);
-
-    const item = {
-      id: target.id,
-      count: 1,
-      evaluation: { comment: '' },
-    };
-
-    if (!list.find(({ id }) => id === item.id)) {
-      localStorage.setItem('product', JSON.stringify([...list, item]));
-    } else {
-      localStorage.setItem('product', JSON.stringify(
-        list.map((objct) => {
-          if (objct.id === item.id) {
-            objct.count += 1;
-          }
-          return objct;
-        }),
-      ));
-    }
-    localStorage.setItem('totalCart', getCount());
-  }
-
   render() {
-    const { products, searchText } = this.props;
+    const { products, searchText, onUpdateCount } = this.props;
 
     if (products.length === 0 && searchText === '') {
       return <span>Nenhum produto foi encontrado</span>;
@@ -42,7 +16,7 @@ class ProductList extends Component {
           <ProductCard
             key={ product.id }
             product={ product }
-            addProduct={ this.addProduct }
+            onUpdateCount={ onUpdateCount }
           />
         ))}
       </div>
@@ -53,6 +27,7 @@ class ProductList extends Component {
 ProductList.propTypes = {
   products: PropTypes.arrayOf(PropTypes.object).isRequired,
   searchText: PropTypes.string,
+  onUpdateCount: PropTypes.func.isRequired,
 };
 
 ProductList.defaultProps = {

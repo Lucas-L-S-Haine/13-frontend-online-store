@@ -1,36 +1,45 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class InfoCart extends Component {
-  constructor() {
-    super();
+  // constructor() {
+  //   super();
 
-    this.state = {
-      countTotal: 0,
-    };
-  }
+  //   this.state = {
+  //     countTotal: 0,
+  //   };
+  // }
 
-  componentDidMount() {
-    this.getCount();
-  }
+  // componentDidMount() {
+  //   this.getCount();
+  // }
 
-  getCount() {
-    const product = localStorage.getItem('product');
-    const list = JSON.parse(product);
-    this.setState({
-      countTotal: list.reduce((acc, { count }) => {
-        acc += count;
-        return acc;
-      }, 0) });
-  }
+  // getCount() {
+  //   const product = localStorage.getItem('product');
+  //   const list = JSON.parse(product);
+  //   this.setState({
+  //     countTotal: list.reduce((acc, { count }) => {
+  //       acc += count;
+  //       return acc;
+  //     }, 0) });
+  // }
 
   render() {
-    const { countTotal } = this.state;
+    const { totalCount } = this.props;
     return (
       <span data-testid="shopping-cart-size">
-        { countTotal }
+        { totalCount }
       </span>
     );
   }
 }
+
+InfoCart.propTypes = {
+  totalCount: PropTypes.number,
+};
+
+InfoCart.defaultProps = {
+  totalCount: undefined,
+};
 
 export default InfoCart;

@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { BiCartAlt } from 'react-icons/bi';
-import InfoCart from './InfoCart';
 import { getCount } from '../services/api';
 
 export default class ProductDetail extends React.Component {
@@ -11,6 +10,7 @@ export default class ProductDetail extends React.Component {
     this.state = {
       product: { attributes: [] },
       evaluation: { comment: '' },
+      countTotal: 0,
     };
 
     this.returnProductDetails = this.returnProductDetails.bind(this);
@@ -20,12 +20,18 @@ export default class ProductDetail extends React.Component {
 
   componentDidMount() {
     this.returnProductDetails();
+    this.onUpdateCount();
   }
 
   handleChange({ target }) {
     this.setState({
       evaluation: { comment: target.value },
     });
+  }
+
+  onUpdateCount() {
+    const total = getCount();
+    this.setState({ countTotal: total });
   }
 
   addProduct({ target }) {
@@ -47,7 +53,8 @@ export default class ProductDetail extends React.Component {
         }),
       ));
     }
-    localStorage.setItem('totalCart', getCount());
+    // localStorage.setItem('totalCart', getCount());
+    this.onUpdateCount();
   }
 
   async returnProductDetails() {
@@ -63,7 +70,7 @@ export default class ProductDetail extends React.Component {
   render() {
     const {
       product: { id, title, thumbnail, price, attributes },
-      evaluation: { comment } } = this.state;
+      evaluation: { comment }, countTotal } = this.state;
 
     return (
       <div>
@@ -72,7 +79,9 @@ export default class ProductDetail extends React.Component {
             <BiCartAlt size={ 40 } />
           </span>
         </Link>
-        <InfoCart />
+        <span data-testid="shopping-cart-size">
+          { countTotal }
+        </span>
         <h1 data-testid="product-detail-name">{title}</h1>
         <img src={ thumbnail } alt={ title } />
         <p>{price}</p>

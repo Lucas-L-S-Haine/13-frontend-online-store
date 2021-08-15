@@ -23,6 +23,9 @@ export function getCount() {
   const product = localStorage.getItem('product');
   const list = JSON.parse(product);
 
+  if (list.length === 0) {
+    return undefined;
+  }
   return list.reduce((acc, { count }) => {
     acc += count;
     return acc;
