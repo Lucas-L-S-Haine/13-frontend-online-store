@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { BiCartAlt } from 'react-icons/bi';
-import { getProductsFromCategoryAndQuery, getCount } from '../services/api';
+import { getProductsFromCategoryAndQuery } from '../services/api';
 import CategoriesList from './CategoriesList';
 import SearchField from './SearchField';
 import ProductList from './ProductList';
@@ -30,6 +30,7 @@ export default class Home extends React.Component {
     if (products === null) {
       localStorage.setItem('product', JSON.stringify([]));
     }
+    this.onUpdateCount();
   }
 
   onSearchText(searchField) {
@@ -45,8 +46,13 @@ export default class Home extends React.Component {
   }
 
   onUpdateCount() {
-    const total = getCount();
-    this.setState({ totalCount: total });
+    const product = localStorage.getItem('product');
+    const list = JSON.parse(product);
+
+    this.setState({ totalCount: list.reduce((acc, { count }) => {
+      acc += count;
+      return acc;
+    }, 0) });
   }
 
   async getProductsList() {
@@ -58,7 +64,6 @@ export default class Home extends React.Component {
     const { results } = product;
     this.setState({ products: results });
     localStorage.setItem('productsList', JSON.stringify(results));
-    this.onUpdateCount();
   }
 
   renderProducts(products) {
@@ -78,11 +83,11 @@ export default class Home extends React.Component {
         <CategoriesList onCategoryId={ this.onCategoryId } />
         {this.renderProducts(products)}
         <Link data-testid="shopping-cart-button" to="/cart">
+          <p data-testid="shopping-cart-size">
+            { totalCount }
+          </p>
           <BiCartAlt size={ 40 } />
         </Link>
-        <span data-testid="shopping-cart-size">
-          { totalCount }
-        </span>
         <SearchField onSearchText={ this.onSearchText } />
         <ProductList
           products={ products }

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { BiCartAlt } from 'react-icons/bi';
-import { getCount } from '../services/api';
+// import { getCount } from '../services/api';
 
 export default class ProductDetail extends React.Component {
   constructor(props) {
@@ -30,8 +30,13 @@ export default class ProductDetail extends React.Component {
   }
 
   onUpdateCount() {
-    const total = getCount();
-    this.setState({ countTotal: total });
+    const product = localStorage.getItem('product');
+    const list = JSON.parse(product);
+
+    this.setState({ countTotal: list.reduce((acc, { count }) => {
+      acc += count;
+      return acc;
+    }, 0) });
   }
 
   addProduct({ target }) {

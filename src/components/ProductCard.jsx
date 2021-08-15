@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-// import { getCount } from '../services/api';
 
 class ProductCard extends Component {
   constructor(props) {
@@ -32,7 +31,6 @@ class ProductCard extends Component {
         }),
       ));
     }
-    // localStorage.setItem('totalCart', getCount());
     onUpdateCount();
   }
 
@@ -55,6 +53,8 @@ class ProductCard extends Component {
         >
           Adicionar ao carrinho
         </button>
+        { product.shipping.free_shipping
+          && <p data-testid="free-shipping">Frete grátis</p>}
       </div>
     );
   }
