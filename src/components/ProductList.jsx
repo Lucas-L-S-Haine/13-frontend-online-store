@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ProductCard from './ProductCard';
+import { getCount } from '../services/api';
 
 class ProductList extends Component {
   addProduct({ target }) {
@@ -25,6 +26,7 @@ class ProductList extends Component {
         }),
       ));
     }
+    localStorage.setItem('totalCart', getCount());
   }
 
   render() {

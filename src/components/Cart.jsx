@@ -86,7 +86,6 @@ class Cart extends Component {
 
     return (
       <div>
-        <span>{ products.length }</span>
         { products.map(({ id, title, thumbnail, price, count }) => (
           <div key={ id }>
             <h1 data-testid="shopping-cart-product-name">{ title }</h1>

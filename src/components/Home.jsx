@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { BiCartAlt } from 'react-icons/bi';
-import { getProductsFromCategoryAndQuery } from '../services/api';
+import { getProductsFromCategoryAndQuery, getCount } from '../services/api';
 import CategoriesList from './CategoriesList';
 import SearchField from './SearchField';
 import ProductList from './ProductList';
@@ -15,6 +15,7 @@ export default class Home extends React.Component {
       searchText: undefined,
       categoryId: undefined,
       products: [],
+      totalCount: 0,
     };
 
     this.onSearchText = this.onSearchText.bind(this);
@@ -42,6 +43,11 @@ export default class Home extends React.Component {
     );
   }
 
+  onUpdateCount() {
+    const total = getCount();
+    this.setState({ totalCount: total });
+  }
+
   async getProductsList() {
     const { categoryId, searchText } = this.state;
     const product = await getProductsFromCategoryAndQuery(
@@ -51,6 +57,7 @@ export default class Home extends React.Component {
     const { results } = product;
     this.setState({ products: results });
     localStorage.setItem('productsList', JSON.stringify(results));
+    this.onUpdateCount();
   }
 
   renderProducts(products) {
@@ -64,20 +71,22 @@ export default class Home extends React.Component {
   }
 
   render() {
-    const { products, searchText } = this.state;
+    const { products, searchText, totalCount } = this.state;
     return (
       <div>
         <CategoriesList onCategoryId={ this.onCategoryId } />
         {this.renderProducts(products)}
         <Link data-testid="shopping-cart-button" to="/cart">
-          <span>
+          <span data-testid="shopping-cart-size">
             <BiCartAlt size={ 40 } />
+            { totalCount }
           </span>
         </Link>
         <SearchField onSearchText={ this.onSearchText } />
         <ProductList
           products={ products }
           searchText={ searchText }
+          onUpdateCount={ this.onUpdateCount }
         />
       </div>
     );

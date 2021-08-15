@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { BiCartAlt } from 'react-icons/bi';
+import InfoCart from './InfoCart';
+import { getCount } from '../services/api';
 
 export default class ProductDetail extends React.Component {
   constructor(props) {
@@ -31,11 +33,7 @@ export default class ProductDetail extends React.Component {
     const { product } = localStorage;
     const list = JSON.parse(product);
 
-    const item = {
-      id: target.id,
-      count: 1,
-      evaluation: { comment },
-    };
+    const item = { id: target.id, count: 1, evaluation: { comment } };
 
     if (!list.find(({ id }) => id === item.id)) {
       localStorage.setItem('product', JSON.stringify([...list, item]));
@@ -49,6 +47,7 @@ export default class ProductDetail extends React.Component {
         }),
       ));
     }
+    localStorage.setItem('totalCart', getCount());
   }
 
   async returnProductDetails() {
@@ -73,6 +72,7 @@ export default class ProductDetail extends React.Component {
             <BiCartAlt size={ 40 } />
           </span>
         </Link>
+        <InfoCart />
         <h1 data-testid="product-detail-name">{title}</h1>
         <img src={ thumbnail } alt={ title } />
         <p>{price}</p>

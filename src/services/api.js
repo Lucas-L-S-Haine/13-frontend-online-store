@@ -18,3 +18,13 @@ export async function getProductsFromCategoryAndQuery(
   const data = await response.json();
   return data;
 }
+
+export function getCount() {
+  const product = localStorage.getItem('product');
+  const list = JSON.parse(product);
+
+  return list.reduce((acc, { count }) => {
+    acc += count;
+    return acc;
+  }, 0);
+}
