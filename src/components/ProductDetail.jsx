@@ -39,12 +39,12 @@ export default class ProductDetail extends React.Component {
   }
 
   addProduct({ target }) {
-    const { evaluation: { comment }, product: { price } } = this.state;
-    console.log(this.state);
+    const { evaluation: { comment }, product: { price, thumbnail, title } } = this.state;
     const { product } = localStorage;
     const list = JSON.parse(product);
 
-    const item = { id: target.id, count: 1, evaluation: { comment }, price };
+    const item = {
+      id: target.id, count: 1, evaluation: { comment }, price, thumbnail, title };
 
     if (!list.find(({ id }) => id === item.id)) {
       localStorage.setItem('product', JSON.stringify([...list, item]));

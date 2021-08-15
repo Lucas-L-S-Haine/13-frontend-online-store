@@ -16,9 +16,10 @@ class ProductCard extends Component {
     const productsList = localStorage.getItem('productsList');
     const listGet = JSON.parse(productsList);
     const productAdd = () => listGet.filter((objct) => (objct.id === target.id))[0];
-    const { price } = productAdd();
+    const { price, thumbnail, title } = productAdd();
 
-    const item = { id: target.id, count: 1, evaluation: { comment: '' }, price };
+    const item = {
+      id: target.id, count: 1, evaluation: { comment: '' }, price, thumbnail, title };
 
     if (!list.find(({ id }) => id === item.id)) {
       localStorage.setItem('product', JSON.stringify([...list, item]));
