@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { BiCartAlt } from 'react-icons/bi';
+// import { getCount } from '../services/api';
 
 export default class ProductDetail extends React.Component {
   constructor(props) {
@@ -9,6 +10,7 @@ export default class ProductDetail extends React.Component {
     this.state = {
       product: { attributes: [] },
       evaluation: { comment: '' },
+      countTotal: 0,
     };
 
     this.returnProductDetails = this.returnProductDetails.bind(this);
@@ -18,6 +20,7 @@ export default class ProductDetail extends React.Component {
 
   componentDidMount() {
     this.returnProductDetails();
+    this.onUpdateCount();
   }
 
   handleChange({ target }) {
@@ -26,16 +29,22 @@ export default class ProductDetail extends React.Component {
     });
   }
 
+  onUpdateCount() {
+    const product = localStorage.getItem('product');
+    const list = JSON.parse(product);
+
+    this.setState({ countTotal: list.reduce((acc, { count }) => {
+      acc += count;
+      return acc;
+    }, 0) });
+  }
+
   addProduct({ target }) {
     const { evaluation: { comment } } = this.state;
     const { product } = localStorage;
     const list = JSON.parse(product);
 
-    const item = {
-      id: target.id,
-      count: 1,
-      evaluation: { comment },
-    };
+    const item = { id: target.id, count: 1, evaluation: { comment } };
 
     if (!list.find(({ id }) => id === item.id)) {
       localStorage.setItem('product', JSON.stringify([...list, item]));
@@ -49,6 +58,8 @@ export default class ProductDetail extends React.Component {
         }),
       ));
     }
+    // localStorage.setItem('totalCart', getCount());
+    this.onUpdateCount();
   }
 
   async returnProductDetails() {
@@ -64,7 +75,7 @@ export default class ProductDetail extends React.Component {
   render() {
     const {
       product: { id, title, thumbnail, price, attributes },
-      evaluation: { comment } } = this.state;
+      evaluation: { comment }, countTotal } = this.state;
 
     return (
       <div>
@@ -73,6 +84,9 @@ export default class ProductDetail extends React.Component {
             <BiCartAlt size={ 40 } />
           </span>
         </Link>
+        <span data-testid="shopping-cart-size">
+          { countTotal }
+        </span>
         <h1 data-testid="product-detail-name">{title}</h1>
         <img src={ thumbnail } alt={ title } />
         <p>{price}</p>

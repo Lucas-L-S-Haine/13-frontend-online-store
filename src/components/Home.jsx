@@ -15,11 +15,13 @@ export default class Home extends React.Component {
       searchText: undefined,
       categoryId: undefined,
       products: [],
+      totalCount: undefined,
     };
 
     this.onSearchText = this.onSearchText.bind(this);
     this.onCategoryId = this.onCategoryId.bind(this);
     this.getProductsList = this.getProductsList.bind(this);
+    this.onUpdateCount = this.onUpdateCount.bind(this);
   }
 
   componentDidMount() {
@@ -28,6 +30,7 @@ export default class Home extends React.Component {
     if (products === null) {
       localStorage.setItem('product', JSON.stringify([]));
     }
+    this.onUpdateCount();
   }
 
   onSearchText(searchField) {
@@ -40,6 +43,16 @@ export default class Home extends React.Component {
       { categoryId: value, searchText: undefined },
       this.getProductsList,
     );
+  }
+
+  onUpdateCount() {
+    const product = localStorage.getItem('product');
+    const list = JSON.parse(product);
+
+    this.setState({ totalCount: list.reduce((acc, { count }) => {
+      acc += count;
+      return acc;
+    }, 0) });
   }
 
   async getProductsList() {
@@ -64,20 +77,22 @@ export default class Home extends React.Component {
   }
 
   render() {
-    const { products, searchText } = this.state;
+    const { products, searchText, totalCount } = this.state;
     return (
       <div>
         <CategoriesList onCategoryId={ this.onCategoryId } />
         {this.renderProducts(products)}
         <Link data-testid="shopping-cart-button" to="/cart">
-          <span>
-            <BiCartAlt size={ 40 } />
-          </span>
+          <p data-testid="shopping-cart-size">
+            { totalCount }
+          </p>
+          <BiCartAlt size={ 40 } />
         </Link>
         <SearchField onSearchText={ this.onSearchText } />
         <ProductList
           products={ products }
           searchText={ searchText }
+          onUpdateCount={ this.onUpdateCount }
         />
       </div>
     );
