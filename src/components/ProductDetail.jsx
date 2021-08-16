@@ -7,7 +7,7 @@ export default class ProductDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      product: { attributes: [] },
+      products: { attributes: [] },
       evaluation: { comment: '' },
       countTotal: 0,
     };
@@ -39,12 +39,21 @@ export default class ProductDetail extends React.Component {
   }
 
   addProduct({ target }) {
-    const { evaluation: { comment }, product: { price, thumbnail, title } } = this.state;
+    const { products } = this.state;
+    const quantity = products.available_quantity;
+
+    const { evaluation: { comment }, products: { price, thumbnail, title } } = this.state;
     const { product } = localStorage;
     const list = JSON.parse(product);
 
     const item = {
-      id: target.id, count: 1, evaluation: { comment }, price, thumbnail, title };
+      id: target.id,
+      count: 1,
+      evaluation: { comment },
+      price,
+      thumbnail,
+      title,
+      quantity };
 
     if (!list.find(({ id }) => id === item.id)) {
       localStorage.setItem('product', JSON.stringify([...list, item]));
@@ -67,13 +76,13 @@ export default class ProductDetail extends React.Component {
     const listGet = JSON.parse(productsList);
 
     this.setState({
-      product: listGet.filter((objct) => (objct.id === id))[0],
+      products: listGet.filter((objct) => (objct.id === id))[0],
     });
   }
 
   render() {
     const {
-      product: { id, title, thumbnail, price, attributes },
+      products: { id, title, thumbnail, price, attributes },
       evaluation: { comment }, countTotal } = this.state;
 
     return (

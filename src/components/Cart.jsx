@@ -41,8 +41,11 @@ class Cart extends Component {
   }
 
   funcMapPositive(array, id) {
+    console.log(array);
     return array.map((objct) => {
-      if (objct.id === id) {
+      if (objct.id === id && objct.count < objct.available_quantity) {
+        objct.count += 1;
+      } if (objct.id === id && objct.count < objct.quantity) {
         objct.count += 1;
       }
       return objct;

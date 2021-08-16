@@ -17,9 +17,16 @@ class ProductCard extends Component {
     const listGet = JSON.parse(productsList);
     const productAdd = () => listGet.filter((objct) => (objct.id === target.id))[0];
     const { price, thumbnail, title } = productAdd();
+    const quantity = productAdd().available_quantity;
 
     const item = {
-      id: target.id, count: 1, evaluation: { comment: '' }, price, thumbnail, title };
+      id: target.id,
+      count: 1,
+      evaluation: { comment: '' },
+      price,
+      thumbnail,
+      title,
+      quantity };
 
     if (!list.find(({ id }) => id === item.id)) {
       localStorage.setItem('product', JSON.stringify([...list, item]));
