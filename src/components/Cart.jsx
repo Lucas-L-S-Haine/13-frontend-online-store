@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import { getCount } from '../services/api';
+import { Link } from 'react-router-dom';
 
 class Cart extends Component {
   constructor(props) {
@@ -18,9 +18,9 @@ class Cart extends Component {
 
   getProductLocal() {
     const { product } = localStorage;
-    const productList = JSON.parse(product);
+    const productListCart = JSON.parse(product);
 
-    productList.map(async ({ id, count, evaluation }) => {
+    productListCart.map(async ({ id, count, evaluation }) => {
       const productsList = await localStorage.getItem('productsList');
       const listGet = JSON.parse(productsList);
 
@@ -60,7 +60,6 @@ class Cart extends Component {
     ));
 
     this.setState({ products: newState });
-    // localStorage.setItem('totalCart', getCount());
   }
 
   decreaseAmount({ target }) {
@@ -74,7 +73,6 @@ class Cart extends Component {
     ));
 
     this.setState({ products: newState });
-    // localStorage.setItem('totalCart', getCount());
   }
 
   render() {
@@ -114,6 +112,9 @@ class Cart extends Component {
             </button>
           </div>
         )) }
+        <Link data-testid="checkout-products" to="checkout-products">
+          Finalizar Compra
+        </Link>
       </div>
     );
   }
